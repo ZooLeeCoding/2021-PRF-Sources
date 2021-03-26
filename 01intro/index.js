@@ -36,7 +36,7 @@ app.use(bodyParser.json({}));
 
 const whiteList = ['http://localhost:4200'];
 
-/* app.use((req, res, next) => {
+app.use((req, res, next) => {
     res.set('Access-Control-Allow-Origin', 'http://localhost:4200');
     res.set('Access-Control-Allow-Credentials', 'true');
     if (req.method === 'OPTIONS') {
@@ -46,15 +46,7 @@ const whiteList = ['http://localhost:4200'];
         res.set('Access-Control-Max-Age', '3600');
     }
     next();
-}) */
-
-app.use(cors({origin: function(origin, callback) {
-    if(whiteList.indexOf(origin) >= 0) {
-        callback(null, true);
-    } else {
-        callback(new Error('CORS Error'));
-    }
-}, credentials: true, methods: "GET,PUT,POST,DELETE,OPTIONS"}));
+})
 
 passport.use('local', new localStrategy(function (username, password, done) {
     userModel.findOne({ username: username }, function (err, user) {
