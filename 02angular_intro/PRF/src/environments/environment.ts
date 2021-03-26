@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   custom: 'This is PRF dev',
-  serverUrl: 'https://prf-node-hellow123.herokuapp.com/'
+  serverUrl: 'http://localhost:4200/server'
   //serverUrl: 'http://localhost:3000/'
 };
 

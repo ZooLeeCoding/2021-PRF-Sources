@@ -34,11 +34,6 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({}));
 
-app.use(function(req, res, next) {
-    console.log('headers', req.headers);
-    next();
-})
-
 const whiteList = ['http://localhost:4200'];
 
 /* app.use((req, res, next) => {

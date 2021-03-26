@@ -10,13 +10,13 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(username: string, password: string) {
-    return this.http.post(environment.serverUrl + 'login', {username: username, password: password}, 
-    {headers: new HttpHeaders({'Content-Type': 'application/json' }), withCredentials: true, 
+    return this.http.post(environment.serverUrl + '/login', {username: username, password: password}, 
+    {withCredentials: true, 
     responseType: 'text', observe: 'response' as 'response'});
   }
 
   logout() {
-    return this.http.post(environment.serverUrl + 'logout', 
-    {headers: new HttpHeaders({'Content-Type': 'application/json' }), withCredentials: true, responseType: 'text'});
+    return this.http.post(environment.serverUrl + '/logout', 
+    {withCredentials: true, responseType: 'text'});
   }
 }
