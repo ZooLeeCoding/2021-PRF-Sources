@@ -16,14 +16,16 @@
         {{x}}
       </li>
     </ul>
+    <input type="text" [(ngModel)]="title"> <!-- Attribute Directive -->
+    <button (click)="goToSecond()">Second</button>
+    <a [routerLink]="['/login']">Logout</a>
+
     <ul>
       <li *ngFor="let el of cloudElements">
         {{el}}
       </li>
     </ul>
-    <input type="text" [(ngModel)]="title"> <!-- Attribute Directive -->
-    <button (click)="goToSecond()">Second</button>
-    <a [routerLink]="['/login']">Logout</a>
+
     <div>
       <div>
         <label>Id</label>
@@ -35,4 +37,5 @@
     </div>
     <button (click)="saveData()">SAVE</button>
     </div>
+    <button (click)="refreshDb()">REFRESH</button>
   </div>

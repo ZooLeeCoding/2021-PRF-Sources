@@ -21,23 +21,23 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.email != '' && this.password != '') {
-      this.loginService.login(this.email, this.password).then(msg => {
-        console.log(msg);
-        localStorage.setItem('user', msg.user!.uid);
+      this.loginService.login(this.email, this.password).then(res => {
+        console.log(res);
+        localStorage.setItem('user', res.user!.uid);
         this.router.navigate(['/first']);
       }).catch(error => {
-        console.log(error);
+        console.log('login error', error);
       })
     }
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('user')) {
+    if(localStorage.getItem('user')) {
       localStorage.removeItem('user');
-      this.loginService.logout().then(msg => {
-        console.log('logout successful');
+      this.loginService.logout().then(() => {
+        console.log('logout sikeres');
       }).catch(error => {
-        console.log(error);
+        console.log('logout error', error);
       })
     }
   }

@@ -11,7 +11,7 @@ import { ErrorComponent } from './error/error.component';
 import { LoginComponent } from './login/login.component';
 import { HttpReqInterceptor } from './utils/http.interceptor';
 
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule } from '@angular/fire'
 import { environment } from 'src/environments/environment';
 
 @NgModule({
@@ -27,7 +27,7 @@ import { environment } from 'src/environments/environment';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase) 
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpReqInterceptor, multi: true }],
   bootstrap: [AppComponent]

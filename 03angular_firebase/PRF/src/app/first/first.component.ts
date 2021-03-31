@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ConnectionService } from '../utils/connection.service';
-import { AngularFirestore } from '@angular/fire/firestore'
 import { Subscription } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-first',
@@ -19,12 +19,11 @@ export class FirstComponent implements OnInit {
 
   title = 'PRF';
 
+  cloudId = '';
+  value = '';
   cloudElements: any[];
 
   example = ['1_elem'];
-
-  cloudId = '';
-  value = '';
 
   dataObserver: Subscription | null = null;
 
@@ -52,23 +51,28 @@ export class FirstComponent implements OnInit {
   }
 
   saveData() {
-    this.afs.collection('Examples').add({id: this.cloudId, value: this.value}).then(() => {
-      console.log('mentes sikeres');
+    this.afs.collection('Examples-023').add({id: this.cloudId, value: this.value}).then(res => {
+      console.log('save successful', res);
       this.cloudId = '';
       this.value = '';
+      this.refreshDb();
     }).catch(error => {
-      console.log(error);
+      console.log('save error', error);
+    })
+  }
+
+  refreshDb() {
+    this.cloudElements = [];
+    this.afs.collection('Examples-023', ref => ref.where('id', '==', 'valami').orderBy('value', 'desc')).get().subscribe(res => {
+      res.docs.forEach(doc => {
+        const data = doc.data() as any;
+        this.cloudElements.push('Id: ' + data.id + ', Value: ' + data.value);
+      })
     })
   }
 
   ngOnInit(): void {
-    this.dataObserver = this.afs.collection('Examples').get().subscribe(res => {
-      this.cloudElements = [];
-      res.forEach(el => {
-        const data: any = el.data();
-        this.cloudElements.push('Id: ' + data.id + ', Value: ' + data.value);
-      })
-    })
+    this.refreshDb();
   }
 
 }
