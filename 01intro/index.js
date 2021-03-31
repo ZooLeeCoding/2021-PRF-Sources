@@ -37,11 +37,11 @@ app.use(bodyParser.json({}));
 const whiteList = ['http://localhost:4200'];
 
 app.use((req, res, next) => {
-    res.set('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.set('Access-Control-Allow-Origin', '*');
     res.set('Access-Control-Allow-Credentials', 'true');
     if (req.method === 'OPTIONS') {
         // Send response to OPTIONS requests
-        res.set('Access-Control-Allow-Methods', 'GET');
+        res.set('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.set('Access-Control-Allow-Headers', 'Content-Type');
         res.set('Access-Control-Max-Age', '3600');
     }
