@@ -3,6 +3,7 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
@@ -11,7 +12,9 @@ const expressSession = require('express-session');
 const app = express();
 
 const port = process.env.PORT || 3000;
-const dbUrl = 'mongodb+srv://admin:' + process.env.DBPASS + '@prf-cluster.5a5tr.mongodb.net/test';
+// const dbUrl = 'mongodb+srv://admin:' + process.env.DBPASS + '@prf-cluster.5a5tr.mongodb.net/test';
+
+const dbUrl = 'mongodb+srv://admin:' + 'i4XQHIalN5UueVDn' + '@prf-cluster.5a5tr.mongodb.net/test';
 
 //const dbUrl = 'mongodb://localhost:1586';
 
@@ -74,9 +77,14 @@ app.use(expressSession({ secret: 'prf2021lassananodejsvegereerunk', resave: true
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req, res, next) => {
+/* app.get('/', (req, res, next) => {
     res.send('Hello World!');
-})
+}) */
+
+app.use(express.static(path.join(__dirname, 'public')))
+.set('views', path.join(__dirname, 'views'))
+.set('view engine', 'ejs')
+.get('/', (req, res) => res.render('pages/index'));
 
 app.use('/', require('./routes'));
 app.use('/secondary', require('./routes'));
