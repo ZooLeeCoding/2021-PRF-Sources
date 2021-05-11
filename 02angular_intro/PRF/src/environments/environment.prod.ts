@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
   custom: 'This is real',
-  serverUrl: 'https://prf-node-hellow123.herokuapp.com/'
+  serverUrl: 'https://thawing-forest-98860.herokuapp.com',
+  springUrl: 'https://pure-journey-16560.herokuapp.com'
 };

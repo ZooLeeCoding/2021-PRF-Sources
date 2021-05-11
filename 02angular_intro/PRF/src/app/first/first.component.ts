@@ -35,6 +35,12 @@ export class FirstComponent implements OnInit {
     }, error => {
       console.log('Sorry we encountered an error: ', error);
     });
+
+    this.connectionService.getTodos().subscribe(res => {
+      console.log('spring response', res);
+    }, error => {
+      console.log('error on the spring part', error);
+    })
   }
 
   helloFrom(st: string) {

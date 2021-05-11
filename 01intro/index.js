@@ -12,11 +12,28 @@ const expressSession = require('express-session');
 const app = express();
 
 const port = process.env.PORT || 3000;
-const dbUrl = 'mongodb+srv://admin:' + process.env.DBPASS + '@prf-cluster.5a5tr.mongodb.net/test';
-
-//const dbUrl = 'mongodb://localhost:1586';
+const dbUrl = 'mongodb+srv://<usernév:jelszó>@prf-cluster.5a5tr.mongodb.net/test';
 
 mongoose.connect(dbUrl);
+
+const whitelist = ['https://<project_id>.web.app', 
+'https://<project_id>.firebaseapp.com', 
+'http://localhost:4200'];
+
+var corsOptions = {
+    origin: function (origin, callback) {
+      if (whitelist.indexOf(origin) !== -1 || !origin) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin', 
+    'Origin', 'Accept']
+  };
+
+app.use(cors(corsOptions));
 
 mongoose.connection.on('connected', () => {
     console.log('db csatlakoztatva');
@@ -34,20 +51,6 @@ const userModel = mongoose.model('user');
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({}));
-
-const whiteList = ['http://localhost:4200'];
-
-app.use((req, res, next) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    res.set('Access-Control-Allow-Credentials', 'true');
-    if (req.method === 'OPTIONS') {
-        // Send response to OPTIONS requests
-        res.set('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-        res.set('Access-Control-Allow-Headers', 'Content-Type');
-        res.set('Access-Control-Max-Age', '3600');
-    }
-    next();
-})
 
 passport.use('local', new localStrategy(function (username, password, done) {
     userModel.findOne({ username: username }, function (err, user) {
@@ -75,17 +78,23 @@ app.use(expressSession({ secret: 'prf2021lassananodejsvegereerunk', resave: true
 app.use(passport.initialize());
 app.use(passport.session());
 
-/* app.get('/', (req, res, next) => {
-    res.send('Hello World!');
-}) */
+// ez a default root akkor ha az Angular külön fut pl. Firebase-en
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.get('/', (req, res, next) => {
+    res.send('Hello World!');
+})
+
+// ez a rész akkor ha a node public mappájában van az Angular kliens
+
+/* app.use(express.static(path.join(__dirname, 'public')))
 .set('views', path.join(__dirname, 'views'))
 .set('view engine', 'ejs')
 .get('/', (req, res) => res.render('pages/index'));
 
 app.use('/', require('./routes'));
-app.use('/secondary', require('./routes'));
+app.use('/secondary', require('./routes')); */
+
+app.use('/', require('./routes'));
 
 // REST - Representative State Transfer, GET - Read, POST - Create, PUT - Update, DELETE - Delete
 

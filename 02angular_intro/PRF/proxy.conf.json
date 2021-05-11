@@ -1,6 +1,6 @@
 {
     "/server": {
-      "target": "https://prf-node-hellow123.herokuapp.com/",
+      "target": "https://thawing-forest-98860.herokuapp.com",
       "secure": true,
       "changeOrigin": true,
       "pathRewrite": {
